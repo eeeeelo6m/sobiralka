@@ -3,6 +3,8 @@ import pygame, time, help
 pygame.init()
 TIMER_ID = event.custom_type()
 screen = display.set_mode([900, 700])
+obrabotca_vistrel= pygame.image.load("picture/vistrel.png")
+obrabotca_vistrel=help.izmeni_kartinku(obrabotca_vistrel,40,110,[0,0,0],10)
 player = pygame.image.load("picture/player.jpg")
 player = help.izmeni_kartinku(player, 50, 150, [235, 28, 36], 100)
 obekt = pygame.Rect([400, 550, 50, 150])
@@ -12,7 +14,9 @@ mogu_strelyt = True
 
 def draw_vistrel():
     for vistrel_rect1 in vistrel_rect:
-        draw.rect(screen, [111, 222, 121, ], vistrel_rect1)
+
+        #draw.rect(screen, [111, 222, 121, ], vistrel_rect1)
+        screen.blit(obrabotca_vistrel,vistrel_rect1)
 
 
 def ogranichnie():
@@ -32,6 +36,7 @@ def obrabotka_event():
             vistrel()
         if r.type==TIMER_ID:
             mogu_strelyt=True
+
 
     keys = key.get_pressed()
     # движение игрока
@@ -56,7 +61,15 @@ def draw_player():
 def attack_vistrel():
     speedy = -5
     for bad in vistrel_rect:
+        if bad.y < 100:
+            speedy = 0
+            print("улетел")
+            vistrel_rect.remove(bad)
+
+
         bad.y += speedy
+
+
 
 
 def vistrel():
@@ -67,7 +80,7 @@ def vistrel():
         a = pygame.Rect([obekt.x + 20, obekt.top - 100, 10, 100])
         vistrel_rect.append(a)
         mogu_strelyt = False
-        pygame.time.set_timer(TIMER_ID,200,1)
+        pygame.time.set_timer(TIMER_ID,1000,1)
     else:
         print("стрелять нельзя")
 
