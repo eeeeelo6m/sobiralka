@@ -1,7 +1,8 @@
 from pygame import draw, event, display, key
 import pygame, time, help,random
 pygame.init()
-TIMER_ID = event.custom_type()
+TIMER_VISTREL = event.custom_type()
+TIMER_FALL_BLOCK=event.custom_type()
 screen = display.set_mode([900, 700])
 obrabotca_block=pygame.image.load("picture/супер гер бой.jpg")
 obrabotca_block=help.izmeni_kartinku(obrabotca_block,70,70,[0,0,0],10)
@@ -9,10 +10,13 @@ obrabotca_vistrel= pygame.image.load("picture/vistrel.png")
 obrabotca_vistrel=help.izmeni_kartinku(obrabotca_vistrel,40,110,[0,0,0],10)
 player = pygame.image.load("picture/player.jpg")
 player = help.izmeni_kartinku(player, 50, 150, [235, 28, 36], 100)
-block= pygame.Rect([random.randint(30,870),10,50,50])
+pygame.time.set_timer(TIMER_FALL_BLOCK, 2000, 1)
+block= []
 obekt = pygame.Rect([400, 550, 50, 150])
+fall_block=True
 vistrel_rect = []
 mogu_strelyt = True
+block1=0
 
 
 
@@ -31,14 +35,23 @@ def ogranichnie():
 
 
 def obrabotka_event():
-    global mogu_strelyt
+    global mogu_strelyt,fall_block
+
     e = event.get()
     for r in e:
+
+        if r.type==TIMER_FALL_BLOCK:
+
+            fall_block=True
+            add_block()
+
+
+
         if r.type == pygame.QUIT:
             exit()
-        if r.type == pygame.KEYDOWN and r.key == pygame.K_SPACE:
+        if r.type == pygame.KEYDOWN and r.key == pygame.K_r:
             vistrel()
-        if r.type==TIMER_ID:
+        if r.type==TIMER_VISTREL:
             mogu_strelyt=True
 
 
@@ -85,12 +98,29 @@ def vistrel():
         a = pygame.Rect([obekt.x + 20, obekt.top - 100, 10, 100])
         vistrel_rect.append(a)
         mogu_strelyt = False
-        pygame.time.set_timer(TIMER_ID, 1000, 1)
+        pygame.time.set_timer(TIMER_VISTREL, 1000, 1)
+
+
+def add_block():
+
+    global fall_block,block1
+
+    if fall_block == True:
+        blocks = pygame.Rect([random.randint(30, 870), 10, 50, 50])
+        block.append(blocks)
+        fall_block = False
+        pygame.time.set_timer(TIMER_FALL_BLOCK, 2000, 1)
+    else:
+        print("недьзя добавить")
+
 
 
 def draw_block():
-    #draw.rect(screen,[0,0,0],block,5,1000000)
-    screen.blit(obrabotca_block,block)
+    for block1 in block:
+        #draw.rect(screen,[0,0,0],block,5,1000000)
+        screen.blit(obrabotca_block,block1)
+
+
 
 
 while 1 == 1:
