@@ -1,30 +1,27 @@
 from pygame import draw, event, display, key
-import pygame, time, help,random
+import pygame, time, help, random
+
 pygame.init()
 TIMER_VISTREL = event.custom_type()
-TIMER_FALL_BLOCK=event.custom_type()
+TIMER_FALL_BLOCK = event.custom_type()
 screen = display.set_mode([900, 700])
-obrabotca_block=pygame.image.load("picture/супер гер бой.jpg")
-obrabotca_block=help.izmeni_kartinku(obrabotca_block,70,70,[0,0,0],10)
-obrabotca_vistrel= pygame.image.load("picture/vistrel.png")
-obrabotca_vistrel=help.izmeni_kartinku(obrabotca_vistrel,40,110,[0,0,0],10)
+obrabotca_block = pygame.image.load("picture/супер гер бой.jpg")
+obrabotca_block = help.izmeni_kartinku(obrabotca_block, 70, 70, [0, 0, 0], 10)
+obrabotca_vistrel = pygame.image.load("picture/vistrel.png")
+obrabotca_vistrel = help.izmeni_kartinku(obrabotca_vistrel, 40, 110, [0, 0, 0], 10)
 player = pygame.image.load("picture/player.jpg")
 player = help.izmeni_kartinku(player, 50, 150, [235, 28, 36], 100)
 pygame.time.set_timer(TIMER_FALL_BLOCK, 2000, 1)
-block= []
+block = []
 obekt = pygame.Rect([400, 550, 50, 150])
-fall_block=True
 vistrel_rect = []
 mogu_strelyt = True
-block1=0
-
 
 
 def draw_vistrel():
     for vistrel_rect1 in vistrel_rect:
-
-        #draw.rect(screen, [111, 222, 121, ], vistrel_rect1)
-        screen.blit(obrabotca_vistrel,vistrel_rect1)
+        # draw.rect(screen, [111, 222, 121, ], vistrel_rect1)
+        screen.blit(obrabotca_vistrel, vistrel_rect1)
 
 
 def ogranichnie():
@@ -35,25 +32,20 @@ def ogranichnie():
 
 
 def obrabotka_event():
-    global mogu_strelyt,fall_block
+    global mogu_strelyt, fall_block
 
     e = event.get()
     for r in e:
 
-        if r.type==TIMER_FALL_BLOCK:
-
-            fall_block=True
+        if r.type == TIMER_FALL_BLOCK:
             add_block()
-
-
 
         if r.type == pygame.QUIT:
             exit()
         if r.type == pygame.KEYDOWN and r.key == pygame.K_r:
             vistrel()
-        if r.type==TIMER_VISTREL:
-            mogu_strelyt=True
-
+        if r.type == TIMER_VISTREL:
+            mogu_strelyt = True
 
     keys = key.get_pressed()
     # движение игрока
@@ -71,9 +63,8 @@ def draw_screen():
     display.flip()
 
 
-
 def draw_player():
-    # draw.rect(screen,[123,111,111],obekt,1)
+    draw.rect(screen,[123,111,111],obekt,1)
     screen.blit(player, obekt)
 
 
@@ -85,10 +76,7 @@ def attack_vistrel():
             print("улетел")
             vistrel_rect.remove(bad)
 
-
         bad.y += speedy
-
-
 
 
 def vistrel():
@@ -102,25 +90,23 @@ def vistrel():
 
 
 def add_block():
+    blocks = pygame.Rect([random.randint(30, 870), 10, 70, 70])
+    block.append(blocks)
+    pygame.time.set_timer(TIMER_FALL_BLOCK, 2000, 1)
 
-    global fall_block,block1
 
-    if fall_block == True:
-        blocks = pygame.Rect([random.randint(30, 870), 10, 50, 50])
-        block.append(blocks)
-        fall_block = False
-        pygame.time.set_timer(TIMER_FALL_BLOCK, 2000, 1)
-    else:
-        print("недьзя добавить")
-
+def padenie():
+    for dvigenie in block:
+        dvigenie.y += 4
+        un_padenie = dvigenie.colliderect(obekt)
+        if un_padenie==1:
+            block.remove(dvigenie)
 
 
 def draw_block():
     for block1 in block:
-        #draw.rect(screen,[0,0,0],block,5,1000000)
-        screen.blit(obrabotca_block,block1)
-
-
+        draw.rect(screen,[0,0,0],block1,1)
+        screen.blit(obrabotca_block, block1)
 
 
 while 1 == 1:
@@ -128,6 +114,5 @@ while 1 == 1:
     obrabotka_event()
     attack_vistrel()
     ogranichnie()
-
+    padenie()
     draw_screen()
-
