@@ -4,6 +4,7 @@ import pygame, time, help, random
 pygame.init()
 TIMER_VISTREL = event.custom_type()
 TIMER_FALL_BLOCK = event.custom_type()
+TIMER_FALL_BOMB = event.custom_type()
 screen = display.set_mode([900, 700])
 obrabotca_block = pygame.image.load("picture/супер гер бой.jpg")
 obrabotca_block = help.izmeni_kartinku(obrabotca_block, 70, 70, [0, 0, 0], 10)
@@ -11,7 +12,11 @@ obrabotca_vistrel = pygame.image.load("picture/vistrel.png")
 obrabotca_vistrel = help.izmeni_kartinku(obrabotca_vistrel, 40, 110, [0, 0, 0], 10)
 player = pygame.image.load("picture/player.jpg")
 player = help.izmeni_kartinku(player, 50, 150, [235, 28, 36], 100)
+obrabotka_bomb = pygame.image.load("picture/bomb.jpg")
+obrabotka_bomb = help.izmeni_kartinku(obrabotka_bomb, 60, 60, [235, 28, 36], 15)
 pygame.time.set_timer(TIMER_FALL_BLOCK, 2000, 1)
+pygame.time.set_timer(TIMER_FALL_BOMB,5000,1)
+bombs=[]
 block = []
 obekt = pygame.Rect([400, 550, 50, 150])
 vistrel_rect = []
@@ -36,6 +41,8 @@ def obrabotka_event():
 
     e = event.get()
     for r in e:
+        if r.type ==TIMER_FALL_BOMB:
+            add_bomb()
 
         if r.type == TIMER_FALL_BLOCK:
             add_block()
@@ -60,6 +67,8 @@ def draw_screen():
     draw_player()
     draw_block()
     draw_vistrel()
+
+    draw_bomb()
     display.flip()
 
 
@@ -107,6 +116,24 @@ def draw_block():
     for block1 in block:
         draw.rect(screen,[0,0,0],block1,1)
         screen.blit(obrabotca_block, block1)
+
+
+#def padenie_bomb
+
+
+def add_bomb():
+    bomb = pygame.Rect(random.randint(0,840),0,60,60,)
+    bombs.append(bomb)
+    pygame.time.set_timer(TIMER_FALL_BOMB,5000,1)
+
+
+
+
+def draw_bomb():
+    for bomb1 in bombs:
+        draw.rect(screen,[0,0,0],bomb1,1)
+        screen.blit(obrabotka_bomb, bomb1)
+
 
 
 while 1 == 1:
