@@ -18,22 +18,22 @@ pygame.time.set_timer(TIMER_FALL_BLOCK, 2000, 1)
 pygame.time.set_timer(TIMER_FALL_BOMB,5000,1)
 bombs=[]
 block = []
-obekt = pygame.Rect([400, 550, 50, 150])
+obekt_player = pygame.Rect([400, 550, 50, 150])
 vistrel_rect = []
 mogu_strelyt = True
 
 
 def draw_vistrel():
     for vistrel_rect1 in vistrel_rect:
-        # draw.rect(screen, [111, 222, 121, ], vistrel_rect1)
+        draw.rect(screen, [111, 222, 121, ], vistrel_rect1,1)
         screen.blit(obrabotca_vistrel, vistrel_rect1)
 
 
 def ogranichnie():
-    if obekt.x < 0:
-        obekt.x = 1
-    if obekt.right > 900:
-        obekt.right = 900
+    if obekt_player.x < 0:
+        obekt_player.x = 1
+    if obekt_player.right > 900:
+        obekt_player.right = 900
 
 
 def obrabotka_event():
@@ -57,9 +57,9 @@ def obrabotka_event():
     keys = key.get_pressed()
     # движение игрока
     if keys[pygame.K_a]:
-        obekt.x += -3
+        obekt_player.x += -4
     if keys[pygame.K_d]:
-        obekt.x += 3
+        obekt_player.x += 4
 
 
 def draw_screen():
@@ -73,8 +73,8 @@ def draw_screen():
 
 
 def draw_player():
-    draw.rect(screen,[123,111,111],obekt,1)
-    screen.blit(player, obekt)
+    draw.rect(screen, [123,111,111], obekt_player, 1)
+    screen.blit(player, obekt_player)
 
 
 def attack_vistrel():
@@ -92,7 +92,7 @@ def vistrel():
     global vistrel_rect, mogu_strelyt
 
     if mogu_strelyt == True:
-        a = pygame.Rect([obekt.x + 20, obekt.top - 100, 10, 100])
+        a = pygame.Rect([obekt_player.x + 20, obekt_player.top - 100, 40,110,])
         vistrel_rect.append(a)
         mogu_strelyt = False
         pygame.time.set_timer(TIMER_VISTREL, 1000, 1)
@@ -104,10 +104,20 @@ def add_block():
     pygame.time.set_timer(TIMER_FALL_BLOCK, 2000, 1)
 
 
+def delete_block():
+    for blocks in block:
+        for vistrel_rect1 in vistrel_rect:
+            delete=vistrel_rect1.colliderect(blocks)
+            if delete==1:
+                block.remove(blocks)
+                vistrel_rect.remove(vistrel_rect1)
+
+
+
 def padenie():
     for dvigenie in block:
         dvigenie.y += 4
-        un_padenie = dvigenie.colliderect(obekt)
+        un_padenie = dvigenie.colliderect(obekt_player)
         if un_padenie==1:
             block.remove(dvigenie)
 
@@ -118,7 +128,7 @@ def draw_block():
         screen.blit(obrabotca_block, block1)
 
 
-#def padenie_bomb
+
 
 
 def add_bomb():
@@ -126,6 +136,20 @@ def add_bomb():
     bombs.append(bomb)
     pygame.time.set_timer(TIMER_FALL_BOMB,5000,1)
 
+
+def delete_bomb():
+    for bomb in bombs:
+        for vistrel_rect1 in vistrel_rect:
+            stolcnovenie=bomb.colliderect(vistrel_rect1)
+            if stolcnovenie==1:
+                bomb.y+=-400
+                bombs.remove(bomb)
+                vistrel_rect.remove(vistrel_rect1)
+
+
+def fall_bomb():
+    for bomb in bombs:
+        bomb.y+=3
 
 
 
@@ -141,5 +165,8 @@ while 1 == 1:
     obrabotka_event()
     attack_vistrel()
     ogranichnie()
+    fall_bomb()
+    delete_bomb()
+    delete_block()
     padenie()
     draw_screen()
