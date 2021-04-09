@@ -5,7 +5,12 @@ pygame.init()
 TIMER_VISTREL = event.custom_type()
 TIMER_FALL_BLOCK = event.custom_type()
 TIMER_FALL_BOMB = event.custom_type()
-screen = display.set_mode([900, 700])
+schet = 0
+heart=3
+screen = display.set_mode([900, 675])
+shrift=pygame.font.SysFont("arial",50)
+heart_player_font=pygame.font.SysFont("arial",30)
+obrabotca_screen= pygame.image.load("picture/фон.png")
 obrabotca_block = pygame.image.load("picture/супер гер бой.jpg")
 obrabotca_block = help.izmeni_kartinku(obrabotca_block, 70, 70, [0, 0, 0], 10)
 obrabotca_vistrel = pygame.image.load("picture/vistrel.png")
@@ -18,7 +23,7 @@ pygame.time.set_timer(TIMER_FALL_BLOCK, 2000, 1)
 pygame.time.set_timer(TIMER_FALL_BOMB, 5000, 1)
 bombs = []
 block = []
-obekt_player = pygame.Rect([400, 550, 50, 150])
+obekt_player = pygame.Rect([400, 525, 50, 150])
 vistrel_rect = []
 mogu_strelyt = True
 
@@ -63,13 +68,19 @@ def obrabotka_event():
 
 
 def draw_screen():
-    screen.fill([123, 0, 255])
+    screen.blit(obrabotca_screen,[0,0])
     draw_player()
     draw_block()
     draw_vistrel()
-
+    draw_schet()
+    drawheart()
     draw_bomb()
     display.flip()
+
+
+def draw_schet():
+    a=shrift.render(str(schet),True,[255,255,0])
+    screen.blit(a,[0,0])
 
 
 def draw_player():
@@ -105,20 +116,26 @@ def add_block():
 
 
 def delete_block():
+    global schet
     for blocks in block:
+
         for vistrel_rect1 in vistrel_rect:
             delete = vistrel_rect1.colliderect(blocks)
             if delete == 1:
                 block.remove(blocks)
                 vistrel_rect.remove(vistrel_rect1)
+                schet-=1
+
 
 
 def padenie():
+    global schet
     for dvigenie in block:
         dvigenie.y += 4
         un_padenie = dvigenie.colliderect(obekt_player)
         if un_padenie == 1:
             block.remove(dvigenie)
+            schet+=1
 
 
 def draw_block():
@@ -143,12 +160,29 @@ def delete_bomb():
                 vistrel_rect.remove(vistrel_rect1)
 
 
+
+
+
+
 def game_over():
+    global heart
     for bomb in bombs:
         game_over1= bomb.colliderect(obekt_player)
         if game_over1==1:
-            print("game over")
+            heart-=1
+            bombs.remove(bomb)
+        if heart==0:
+            print("game_over")
             exit()
+
+
+
+def drawheart():
+    global heart
+    a=heart_player_font.render(str(heart),True,[255,0,0])
+    screen.blit(a,[840,0])
+
+
 
 
 def fall_bomb():
