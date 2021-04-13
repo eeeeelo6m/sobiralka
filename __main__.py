@@ -1,16 +1,20 @@
 from pygame import draw, event, display, key
-import pygame, time, help, random
+import pygame, time, help, random,designer
 
 pygame.init()
 TIMER_VISTREL = event.custom_type()
 TIMER_FALL_BLOCK = event.custom_type()
 TIMER_FALL_BOMB = event.custom_type()
 schet = 0
-heart=3
+heart = 3
+new_level = 10
+level = 1
 screen = display.set_mode([900, 675])
-shrift=pygame.font.SysFont("arial",50)
-heart_player_font=pygame.font.SysFont("arial",30)
-obrabotca_screen= pygame.image.load("picture/фон.png")
+shrift = pygame.font.SysFont("arial", 50)
+f = pygame.font.SysFont("arial", 150)
+heart_player_font = pygame.font.SysFont("arial", 30)
+
+obrabotca_screen = pygame.image.load(designer.screen[0])
 obrabotca_block = pygame.image.load("picture/супер гер бой.jpg")
 obrabotca_block = help.izmeni_kartinku(obrabotca_block, 70, 70, [0, 0, 0], 10)
 obrabotca_vistrel = pygame.image.load("picture/vistrel.png")
@@ -26,6 +30,8 @@ block = []
 obekt_player = pygame.Rect([400, 525, 50, 150])
 vistrel_rect = []
 mogu_strelyt = True
+
+
 
 
 def draw_vistrel():
@@ -68,19 +74,23 @@ def obrabotka_event():
 
 
 def draw_screen():
-    screen.blit(obrabotca_screen,[0,0])
+    screen.blit(obrabotca_screen, [0, 0])
     draw_player()
     draw_block()
     draw_vistrel()
     draw_schet()
+    draw_new_level()
     drawheart()
     draw_bomb()
     display.flip()
 
 
+
+
+
 def draw_schet():
-    a=shrift.render(str(schet),True,[255,255,0])
-    screen.blit(a,[0,0])
+    a = shrift.render(str(schet), True, [255, 255, 0])
+    screen.blit(a, [0, 0])
 
 
 def draw_player():
@@ -118,14 +128,35 @@ def add_block():
 def delete_block():
     global schet
     for blocks in block:
-
         for vistrel_rect1 in vistrel_rect:
             delete = vistrel_rect1.colliderect(blocks)
             if delete == 1:
                 block.remove(blocks)
                 vistrel_rect.remove(vistrel_rect1)
-                schet-=1
+                schet -= 1
 
+
+def next_level():
+    global new_level, schet
+    if new_level == schet:
+        new_level += 5
+        schet = 0
+
+
+def draw_new_level():
+    global level,obrabotca_screen
+
+
+
+    if new_level==schet:
+        level+=1
+        a = f.render("new level "+str(level), True, [255, 255, 0])
+        screen.fill([0,0,0])
+        screen.blit(a, [200, 280])
+        pygame.display.flip()
+        time.sleep(3)
+        nomer_fona=level-1
+        obrabotca_screen = pygame.image.load(designer.screen[nomer_fona])
 
 
 def padenie():
@@ -135,8 +166,7 @@ def padenie():
         un_padenie = dvigenie.colliderect(obekt_player)
         if un_padenie == 1:
             block.remove(dvigenie)
-            schet+=1
-
+            schet += 1
 
 def draw_block():
     for block1 in block:
@@ -160,29 +190,22 @@ def delete_bomb():
                 vistrel_rect.remove(vistrel_rect1)
 
 
-
-
-
-
 def game_over():
     global heart
     for bomb in bombs:
-        game_over1= bomb.colliderect(obekt_player)
-        if game_over1==1:
-            heart-=1
+        game_over1 = bomb.colliderect(obekt_player)
+        if game_over1 == 1:
+            heart -= 1
             bombs.remove(bomb)
-        if heart==0:
+        if heart == 0:
             print("game_over")
             exit()
 
 
-
 def drawheart():
     global heart
-    a=heart_player_font.render(str(heart),True,[255,0,0])
-    screen.blit(a,[840,0])
-
-
+    a = heart_player_font.render(str(heart), True, [255, 0, 0])
+    screen.blit(a, [840, 0])
 
 
 def fall_bomb():
@@ -197,7 +220,9 @@ def draw_bomb():
 
 
 while 1 == 1:
+
     time.sleep(1 / 120)
+    next_level()
     obrabotka_event()
     attack_vistrel()
     ogranichnie()
