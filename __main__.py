@@ -7,13 +7,16 @@ TIMER_FALL_BLOCK = event.custom_type()
 TIMER_FALL_BOMB = event.custom_type()
 schet = 0
 heart = 3
-new_level = 10
+new_level = 1
 level = 1
 screen = display.set_mode([900, 675])
-shrift = pygame.font.SysFont("arial", 50)
-f = pygame.font.SysFont("arial", 150)
-heart_player_font = pygame.font.SysFont("arial", 30)
-
+shrift = pygame.font.SysFont("microsoftnewtailue", 50)
+new_levels = pygame.font.SysFont("microsoftnewtailue", 150)
+print(pygame.font.get_fonts())
+win= pygame.font.SysFont("microsoftnewtailue" ,300)
+heart_player_font = pygame.font.SysFont("microsoftnewtailue", 30)
+pygame.mixer.music.load('musik/musika.mp3')
+pygame.mixer.music.play()
 obrabotca_screen = pygame.image.load(designer.screen[0])
 obrabotca_block = pygame.image.load("picture/супер гер бой.jpg")
 obrabotca_block = help.izmeni_kartinku(obrabotca_block, 70, 70, [0, 0, 0], 10)
@@ -139,7 +142,7 @@ def delete_block():
 def next_level():
     global new_level, schet
     if new_level == schet:
-        new_level += 5
+        new_level += 3
         schet = 0
 
 
@@ -147,16 +150,31 @@ def draw_new_level():
     global level,obrabotca_screen
 
 
-
     if new_level==schet:
+
         level+=1
-        a = f.render("new level "+str(level), True, [255, 255, 0])
+        a = new_levels.render("new level " + str(level), True, [255, 255, 0])
         screen.fill([0,0,0])
         screen.blit(a, [200, 280])
         pygame.display.flip()
+
         time.sleep(3)
-        nomer_fona=level-1
-        obrabotca_screen = pygame.image.load(designer.screen[nomer_fona])
+        fon=len(designer.screen)
+
+        if fon+1>level:
+            nomer_fona=level-1
+            obrabotca_screen = pygame.image.load(designer.screen[nomer_fona])
+
+
+def you_win():
+    if level==20:
+        a=win.render("win",True,[255,255,30])
+        screen.fill([0,0,0])
+        screen.blit(a,[300,200])
+        pygame.display.flip()
+        time.sleep(5)
+        exit()
+
 
 
 def padenie():
@@ -229,6 +247,7 @@ while 1 == 1:
     fall_bomb()
     delete_bomb()
     delete_block()
+    you_win()
     game_over()
     padenie()
     draw_screen()
