@@ -10,13 +10,13 @@ heart = 3
 new_level = 1
 level = 1
 screen = display.set_mode([900, 675])
-shrift = pygame.font.SysFont("microsoftnewtailue", 50)
-new_levels = pygame.font.SysFont("microsoftnewtailue", 150)
+shrift = pygame.font.SysFont("comicsansms", 50)
+new_levels = pygame.font.SysFont("comicsansms", 100)
 print(pygame.font.get_fonts())
-win= pygame.font.SysFont("microsoftnewtailue" ,300)
-heart_player_font = pygame.font.SysFont("microsoftnewtailue", 30)
-pygame.mixer.music.load('musik/musika.mp3')
-pygame.mixer.music.play()
+win= pygame.font.SysFont("comicsansms" ,300)
+heart_player_font = pygame.font.SysFont("comicsansms", 30)
+#pygame.mixer.music.load('musik/musika.mp3')
+#pygame.mixer.music.play()
 obrabotca_screen = pygame.image.load(designer.screen[0])
 obrabotca_block = pygame.image.load("picture/супер гер бой.jpg")
 obrabotca_block = help.izmeni_kartinku(obrabotca_block, 70, 70, [0, 0, 0], 10)
@@ -147,7 +147,7 @@ def next_level():
 
 
 def draw_new_level():
-    global level,obrabotca_screen
+    global level,obrabotca_screen,nomer_fona
 
 
     if new_level==schet:
@@ -159,11 +159,13 @@ def draw_new_level():
         pygame.display.flip()
 
         time.sleep(3)
-        fon=len(designer.screen)
 
-        if fon+1>level:
-            nomer_fona=level-1
-            obrabotca_screen = pygame.image.load(designer.screen[nomer_fona])
+
+        level2 =level//2 #номер фона который надо поставить
+        if level2<len(designer.screen):
+
+            obrabotca_screen = pygame.image.load(designer.screen[level2])
+            print(level2)
 
 
 def you_win():
