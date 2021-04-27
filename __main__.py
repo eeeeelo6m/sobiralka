@@ -1,22 +1,24 @@
 from pygame import draw, event, display, key
-import pygame, time, help, random,designer
+import pygame, time, help, random, designer
 
 pygame.init()
 TIMER_VISTREL = event.custom_type()
 TIMER_FALL_BLOCK = event.custom_type()
 TIMER_FALL_BOMB = event.custom_type()
+TIMER_FALL_HARD_BOMB=event.custom_type()
 schet = 0
 heart = 3
 new_level = 1
 level = 1
+secunder = 10000
 screen = display.set_mode([900, 675])
 shrift = pygame.font.SysFont("comicsansms", 50)
 new_levels = pygame.font.SysFont("comicsansms", 100)
 print(pygame.font.get_fonts())
-win= pygame.font.SysFont("comicsansms" ,300)
+win = pygame.font.SysFont("comicsansms", 300)
 heart_player_font = pygame.font.SysFont("comicsansms", 30)
-#pygame.mixer.music.load('musik/musika.mp3')
-#pygame.mixer.music.play()
+# pygame.mixer.music.load('musik/musika.mp3')
+# pygame.mixer.music.play()
 obrabotca_screen = pygame.image.load(designer.screen[0])
 obrabotca_block = pygame.image.load("picture/супер гер бой.jpg")
 obrabotca_block = help.izmeni_kartinku(obrabotca_block, 70, 70, [0, 0, 0], 10)
@@ -26,15 +28,18 @@ player = pygame.image.load("picture/player.jpg")
 player = help.izmeni_kartinku(player, 50, 150, [235, 28, 36], 100)
 obrabotka_bomb = pygame.image.load("picture/bomb.jpg")
 obrabotka_bomb = help.izmeni_kartinku(obrabotka_bomb, 60, 60, [235, 28, 36], 15)
+obrabotka_hard_bomb = pygame.image.load("picture/hard bomb.jpg")
+obrabotka_hard_bomb = help.izmeni_kartinku(obrabotka_hard_bomb, 80, 80, [184, 61, 186], 10)
 pygame.time.set_timer(TIMER_FALL_BLOCK, 2000, 1)
 pygame.time.set_timer(TIMER_FALL_BOMB, 5000, 1)
+pygame.time.set_timer(TIMER_FALL_HARD_BOMB, secunder)
+
 bombs = []
+hard_bombs=[]
 block = []
 obekt_player = pygame.Rect([400, 525, 50, 150])
 vistrel_rect = []
 mogu_strelyt = True
-
-
 
 
 def draw_vistrel():
@@ -61,6 +66,9 @@ def obrabotka_event():
         if r.type == TIMER_FALL_BLOCK:
             add_block()
 
+        if r.type==TIMER_FALL_HARD_BOMB:
+            add_hard_bomb()
+
         if r.type == pygame.QUIT:
             exit()
         if r.type == pygame.KEYDOWN and r.key == pygame.K_r:
@@ -80,15 +88,13 @@ def draw_screen():
     screen.blit(obrabotca_screen, [0, 0])
     draw_player()
     draw_block()
+    draw_hard_bomb()
     draw_vistrel()
     draw_schet()
     draw_new_level()
     drawheart()
     draw_bomb()
     display.flip()
-
-
-
 
 
 def draw_schet():
@@ -113,13 +119,17 @@ def attack_vistrel():
 
 
 def vistrel():
-    global vistrel_rect, mogu_strelyt
+    global vistrel_rect, mogu_strelyt, schet
 
     if mogu_strelyt == True:
         a = pygame.Rect([obekt_player.x + 20, obekt_player.top - 100, 40, 110, ])
         vistrel_rect.append(a)
         mogu_strelyt = False
         pygame.time.set_timer(TIMER_VISTREL, 1000, 1)
+        schet -= 1
+        if schet <= -10 and level>1:
+            print("gameover")
+            exit()
 
 
 def add_block():
@@ -136,7 +146,10 @@ def delete_block():
             if delete == 1:
                 block.remove(blocks)
                 vistrel_rect.remove(vistrel_rect1)
-                schet -= 1
+                schet -= 10
+                if schet <= -10 and level>1:
+                    print("GAME OVER")
+                    exit()
 
 
 def next_level():
@@ -147,36 +160,32 @@ def next_level():
 
 
 def draw_new_level():
-    global level,obrabotca_screen,nomer_fona
+    global level, obrabotca_screen, nomer_fona
 
+    if new_level == schet:
 
-    if new_level==schet:
-
-        level+=1
+        level += 1
         a = new_levels.render("new level " + str(level), True, [255, 255, 0])
-        screen.fill([0,0,0])
+        screen.fill([0, 0, 0])
         screen.blit(a, [200, 280])
         pygame.display.flip()
 
         time.sleep(3)
 
-
-        level2 =level//2 #номер фона который надо поставить
-        if level2<len(designer.screen):
-
+        level2 = level // 2  # номер фона который надо поставить
+        if level2 < len(designer.screen):
             obrabotca_screen = pygame.image.load(designer.screen[level2])
             print(level2)
 
 
 def you_win():
-    if level==20:
-        a=win.render("win",True,[255,255,30])
-        screen.fill([0,0,0])
-        screen.blit(a,[300,200])
+    if level == 20:
+        a = win.render("win", True, [255, 255, 30])
+        screen.fill([0, 0, 0])
+        screen.blit(a, [300, 200])
         pygame.display.flip()
         time.sleep(5)
         exit()
-
 
 
 def padenie():
@@ -187,6 +196,7 @@ def padenie():
         if un_padenie == 1:
             block.remove(dvigenie)
             schet += 1
+
 
 def draw_block():
     for block1 in block:
@@ -208,6 +218,26 @@ def delete_bomb():
                 bomb.y += -300
                 bombs.remove(bomb)
                 vistrel_rect.remove(vistrel_rect1)
+
+
+def add_hard_bomb():
+    hard_bomb=pygame.Rect(random.randint(0,830),0,80,80)
+    hard_bombs.append(hard_bomb)
+    pygame.time.set_timer(TIMER_FALL_HARD_BOMB,secunder)
+
+
+def falling_hard_bomb():
+    for hard_bomb in hard_bombs:
+        hard_bomb.y+=5
+
+
+def draw_hard_bomb():
+    for hard_bomb in hard_bombs:
+        draw.rect(screen,[100,100,100],hard_bomb,1)
+        screen.blit(obrabotka_hard_bomb,hard_bomb)
+
+
+
 
 
 def game_over():
@@ -240,7 +270,6 @@ def draw_bomb():
 
 
 while 1 == 1:
-
     time.sleep(1 / 120)
     next_level()
     obrabotka_event()
@@ -251,5 +280,6 @@ while 1 == 1:
     delete_block()
     you_win()
     game_over()
+    falling_hard_bomb()
     padenie()
     draw_screen()
