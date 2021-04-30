@@ -5,12 +5,12 @@ pygame.init()
 TIMER_VISTREL = event.custom_type()
 TIMER_FALL_BLOCK = event.custom_type()
 TIMER_FALL_BOMB = event.custom_type()
-TIMER_FALL_HARD_BOMB=event.custom_type()
+TIMER_FALL_HARD_BOMB = event.custom_type()
 schet = 0
 heart = 3
 new_level = 1
 level = 1
-secunder = 10000
+secunder = 3000
 screen = display.set_mode([900, 675])
 shrift = pygame.font.SysFont("comicsansms", 50)
 new_levels = pygame.font.SysFont("comicsansms", 100)
@@ -35,7 +35,7 @@ pygame.time.set_timer(TIMER_FALL_BOMB, 5000, 1)
 pygame.time.set_timer(TIMER_FALL_HARD_BOMB, secunder)
 
 bombs = []
-hard_bombs=[]
+hard_bombs = []
 block = []
 obekt_player = pygame.Rect([400, 525, 50, 150])
 vistrel_rect = []
@@ -66,7 +66,7 @@ def obrabotka_event():
         if r.type == TIMER_FALL_BLOCK:
             add_block()
 
-        if r.type==TIMER_FALL_HARD_BOMB:
+        if r.type == TIMER_FALL_HARD_BOMB:
             add_hard_bomb()
 
         if r.type == pygame.QUIT:
@@ -127,7 +127,7 @@ def vistrel():
         mogu_strelyt = False
         pygame.time.set_timer(TIMER_VISTREL, 1000, 1)
         schet -= 1
-        if schet <= -10 and level>1:
+        if schet <= -10 and level > 1:
             print("gameover")
             exit()
 
@@ -147,30 +147,28 @@ def delete_block():
                 block.remove(blocks)
                 vistrel_rect.remove(vistrel_rect1)
                 schet -= 10
-                if schet <= -10 and level>1:
+                if schet <= -10 and level > 1:
                     print("GAME OVER")
                     exit()
 
 
-def next_level():
-    global new_level, schet
-    if new_level == schet:
-        new_level += 3
-        schet = 0
 
 
 def draw_new_level():
-    global level, obrabotca_screen, nomer_fona
+    global level, obrabotca_screen, nomer_fona,schet,new_level
 
-    if new_level == schet:
+    if new_level <= schet:
 
         level += 1
         a = new_levels.render("new level " + str(level), True, [255, 255, 0])
         screen.fill([0, 0, 0])
         screen.blit(a, [200, 280])
         pygame.display.flip()
-
         time.sleep(3)
+
+        new_level += 3
+        schet = 0
+
 
         level2 = level // 2  # номер фона который надо поставить
         if level2 < len(designer.screen):
@@ -221,21 +219,39 @@ def delete_bomb():
 
 
 def add_hard_bomb():
-    hard_bomb=pygame.Rect(random.randint(0,830),0,80,80)
+    hard_bomb = pygame.Rect(random.randint(0, 830), 0, 80, 80)
     hard_bombs.append(hard_bomb)
-    pygame.time.set_timer(TIMER_FALL_HARD_BOMB,secunder)
+    pygame.time.set_timer(TIMER_FALL_HARD_BOMB, secunder)
 
 
 def falling_hard_bomb():
     for hard_bomb in hard_bombs:
-        hard_bomb.y+=5
+        hard_bomb.y += 1
 
 
 def draw_hard_bomb():
     for hard_bomb in hard_bombs:
-        draw.rect(screen,[100,100,100],hard_bomb,1)
-        screen.blit(obrabotka_hard_bomb,hard_bomb)
+        draw.rect(screen, [100, 100, 100], hard_bomb, 1)
+        screen.blit(obrabotka_hard_bomb, hard_bomb)
 
+
+def popadanie_hard_bomb():
+    global heart
+    for hard_bomb in hard_bombs:
+        a = hard_bomb.colliderect(obekt_player)
+        if a == 1:
+            heart /= 2
+            hard_bombs.remove(hard_bomb)
+
+
+def delete_hard_bomb():
+    global schet
+    for vistrel_rect1 in vistrel_rect:
+        a = vistrel_rect1.collidelist(hard_bombs)
+        if a >= 0:
+            schet+=4
+            vistrel_rect.remove(vistrel_rect1)
+            del hard_bombs[a]
 
 
 
@@ -247,7 +263,7 @@ def game_over():
         if game_over1 == 1:
             heart -= 1
             bombs.remove(bomb)
-        if heart == 0:
+        if heart <= 0:
             print("game_over")
             exit()
 
@@ -255,7 +271,7 @@ def game_over():
 def drawheart():
     global heart
     a = heart_player_font.render(str(heart), True, [255, 0, 0])
-    screen.blit(a, [840, 0])
+    screen.blit(a, [30, 0])
 
 
 def fall_bomb():
@@ -271,15 +287,16 @@ def draw_bomb():
 
 while 1 == 1:
     time.sleep(1 / 120)
-    next_level()
     obrabotka_event()
     attack_vistrel()
     ogranichnie()
     fall_bomb()
     delete_bomb()
     delete_block()
+    popadanie_hard_bomb()
     you_win()
     game_over()
     falling_hard_bomb()
     padenie()
+    delete_hard_bomb()
     draw_screen()
