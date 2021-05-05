@@ -58,17 +58,18 @@ def draw_new_level():
 
     if model.new_level <= model.schet:
 
-        level += 1
-        a = new_levels.render("new level " + str(level), True, [255, 255, 0])
+        model.level += 1
+        a = new_levels.render("new level " + str(model.level), True, [255, 255, 0])
         screen.fill([0, 0, 0])
         screen.blit(a, [200, 280])
         pygame.display.flip()
+        model.new_level += 3
+        model.schet = 0
         time.sleep(3)
 
-        new_level += 3
-        schet = 0
 
-        level2 = level // 2  # номер фона который надо поставить
+
+        level2 = model.level // 2  # номер фона который надо поставить
         if level2 < len(designer.screen):
             obrabotca_screen = pygame.image.load(designer.screen[level2])
             print(level2)
@@ -98,7 +99,7 @@ def draw_hard_bomb():
 
 def draw_heart():
     global heart
-    a = heart_player_font.render(str(heart), True, [255, 0, 0])
+    a = heart_player_font.render(str(model.heart), True, [255, 0, 0])
     screen.blit(a, [870, 0])
 
 
