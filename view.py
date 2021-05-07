@@ -2,11 +2,12 @@ from pygame import draw,display
 import pygame,designer,model,time,help
 
 screen = display.set_mode([900, 675])
-shrift = pygame.font.SysFont("cambriacambriamath", 50)
-new_levels = pygame.font.SysFont("cambriacambriamath", 100)
+shrift = pygame.font.SysFont("vinerhanditc", 50)
+new_levels = pygame.font.SysFont("vinerhanditc", 100)
 print(pygame.font.get_fonts())
-win = pygame.font.SysFont("cambriacambriamath", 300)
-heart_player_font = pygame.font.SysFont("cambriacambriamath", 30)
+win = pygame.font.SysFont("vinerhanditc", 300)
+heart_player_font = pygame.font.SysFont("vinerhanditc", 30)
+game_over_font=pygame.font.SysFont('vinerhanditc', 150)
 # pygame.mixer.music.load('musik/musika.mp3')
 # pygame.mixer.music.play()
 obrabotca_screen = pygame.image.load(designer.screen[0])
@@ -33,6 +34,8 @@ def draw_screen():
     draw_schet()
     draw_new_level()
     draw_heart()
+    draw_game_over()
+    you_win()
     draw_bomb()
     display.flip()
 
@@ -76,10 +79,25 @@ def draw_new_level():
 
 
 def you_win():
-    if level == 20:
+    if model.level == 3:
         a = win.render("win", True, [255, 255, 30])
         screen.fill([0, 0, 0])
         screen.blit(a, [300, 200])
+        pygame.display.flip()
+        time.sleep(5)
+        exit()
+
+
+def draw_game_over():
+    if model.heart<=0   or model.schet<=-10:
+
+        a=game_over_font.render('GAME OVER',True,[200,30,50])
+        r=a.get_rect()
+        screen.fill([255,0,0])
+        r.centerx=900/2
+        r.centery=675/2
+        screen.blit(a,r)
+
         pygame.display.flip()
         time.sleep(5)
         exit()

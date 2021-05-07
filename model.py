@@ -1,5 +1,5 @@
 
-import pygame,random
+import pygame,random,controller
 pygame.init()
 
 obekt_player = pygame.Rect([400, 525, 50, 150])
@@ -39,6 +39,7 @@ def vistrel():
     if mogu_strelyt == True:
         a = pygame.Rect([obekt_player.x + 20, obekt_player.top - 100, 40, 110, ])
         vistrel_rect.append(a)
+        pygame.time.set_timer(controller.TIMER_VISTREL,1000)
         mogu_strelyt = False
 
         schet -= 1
@@ -61,9 +62,8 @@ def delete_block():
                 block.remove(blocks)
                 vistrel_rect.remove(vistrel_rect1)
                 schet -= 10
-                if schet <= -10 and level > 1:
-                    print("GAME OVER")
-                    exit()
+
+
 
 
 def padenie():
@@ -128,9 +128,6 @@ def game_over():
         if game_over1 == 1:
             heart -= 1
             bombs.remove(bomb)
-        if heart <= 0:
-            print("game_over")
-            exit()
 
 
 def fall_bomb():

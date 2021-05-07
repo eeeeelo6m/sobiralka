@@ -30,7 +30,8 @@ def obrabotka_event():
         if r.type == pygame.KEYDOWN and r.key == pygame.K_r:
             model.vistrel()
         if r.type == TIMER_VISTREL:
-            mogu_strelyt = True
+            model.mogu_strelyt = True
+
 
     keys = key.get_pressed()
     # движение игрока
