@@ -1,7 +1,6 @@
+import pygame, random, controller, view
 
-import pygame,random,controller
 pygame.init()
-
 obekt_player = pygame.Rect([400, 525, 50, 150])
 schet = 0
 heart = 3
@@ -11,8 +10,8 @@ bombs = []
 hard_bombs = []
 block = []
 vistrel_rect = []
+vzriv = False
 mogu_strelyt = True
-
 
 
 def ogranichnie():
@@ -39,7 +38,7 @@ def vistrel():
     if mogu_strelyt == True:
         a = pygame.Rect([obekt_player.x + 20, obekt_player.top - 100, 40, 110, ])
         vistrel_rect.append(a)
-        pygame.time.set_timer(controller.TIMER_VISTREL,1000)
+        pygame.time.set_timer(controller.TIMER_VISTREL, 1000)
         mogu_strelyt = False
 
         schet -= 1
@@ -62,8 +61,6 @@ def delete_block():
                 block.remove(blocks)
                 vistrel_rect.remove(vistrel_rect1)
                 schet -= 10
-
-
 
 
 def padenie():
@@ -96,19 +93,23 @@ def add_hard_bomb():
     hard_bombs.append(hard_bomb)
 
 
-
 def falling_hard_bomb():
     for hard_bomb in hard_bombs:
         hard_bomb.y += 2
 
 
 def popadanie_hard_bomb():
-    global heart
+    global heart, vzriv
     for hard_bomb in hard_bombs:
         a = hard_bomb.colliderect(obekt_player)
         if a == 1:
             heart -= 2
+            pygame.time.set_timer(controller.TIMER_POYVLENUE_VZRIV_HARD_BOMB, 1000,1)
             hard_bombs.remove(hard_bomb)
+
+
+def add_vzriv():
+    print('взрыв')
 
 
 def delete_hard_bomb():

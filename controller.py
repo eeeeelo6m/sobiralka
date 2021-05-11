@@ -6,8 +6,10 @@ TIMER_VISTREL = event.custom_type()
 TIMER_FALL_BLOCK = event.custom_type()
 TIMER_FALL_BOMB = event.custom_type()
 TIMER_FALL_HARD_BOMB = event.custom_type()
+TIMER_POYVLENUE_VZRIV_HARD_BOMB= event.custom_type()
 pygame.time.set_timer(TIMER_FALL_BLOCK, 2000)
 pygame.time.set_timer(TIMER_FALL_BOMB, 5000)
+
 pygame.time.set_timer(TIMER_FALL_HARD_BOMB, secunder)
 
 
@@ -22,6 +24,8 @@ def obrabotka_event():
         if r.type == TIMER_FALL_BLOCK:
             model.add_block()
 
+        if r.type==TIMER_POYVLENUE_VZRIV_HARD_BOMB:
+             model.add_vzriv()
         if r.type == TIMER_FALL_HARD_BOMB:
             model.add_hard_bomb()
 

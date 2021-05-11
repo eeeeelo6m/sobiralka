@@ -1,9 +1,9 @@
 from pygame import draw,display
 import pygame,designer,model,time,help
-
+pygame.init()
 screen = display.set_mode([900, 675])
 shrift = pygame.font.SysFont("vinerhanditc", 50)
-new_levels = pygame.font.SysFont("vinerhanditc", 100)
+new_levels = pygame.font.SysFont("vinerhanditc", 200)
 print(pygame.font.get_fonts())
 win = pygame.font.SysFont("vinerhanditc", 300)
 heart_player_font = pygame.font.SysFont("vinerhanditc", 30)
@@ -62,7 +62,7 @@ def draw_new_level():
     if model.new_level <= model.schet:
 
         model.level += 1
-        a = new_levels.render("new level " + str(model.level), True, [255, 255, 0])
+        a = new_levels.render("level " + str(model.level), True, [255, 255, 0])
         screen.fill([0, 0, 0])
         screen.blit(a, [200, 280])
         pygame.display.flip()
@@ -79,13 +79,16 @@ def draw_new_level():
 
 
 def you_win():
-    if model.level == 3:
+    if model.level == 10:
         a = win.render("win", True, [255, 255, 30])
         screen.fill([0, 0, 0])
         screen.blit(a, [300, 200])
         pygame.display.flip()
         time.sleep(5)
         exit()
+
+
+
 
 
 def draw_game_over():
