@@ -103,7 +103,7 @@ def popadanie_hard_bomb():
     for hard_bomb in hard_bombs:
         a = hard_bomb.colliderect(obekt_player)
         if a == 1:
-            heart -= 2
+            heart -= 1.5
             pygame.time.set_timer(controller.TIMER_POYVLENUE_VZRIV_HARD_BOMB, 1000,1)
             hard_bombs.remove(hard_bomb)
 
