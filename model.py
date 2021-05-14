@@ -6,11 +6,16 @@ schet = 0
 heart = 3
 new_level = 1
 level = 1
+
+
+
 bombs = []
 hard_bombs = []
 block = []
 vistrel_rect = []
-vzriv = False
+vzriv = None
+vzriv_x=None
+vzriv_y=None
 mogu_strelyt = True
 
 
@@ -99,27 +104,44 @@ def falling_hard_bomb():
 
 
 def popadanie_hard_bomb():
-    global heart, vzriv
+    global heart,vzriv_x,vzriv_y
     for hard_bomb in hard_bombs:
         a = hard_bomb.colliderect(obekt_player)
         if a == 1:
             heart -= 1.5
-            pygame.time.set_timer(controller.TIMER_POYVLENUE_VZRIV_HARD_BOMB, 1000,1)
+            start_vzriv(hard_bomb)
             hard_bombs.remove(hard_bomb)
 
 
+def start_vzriv(hard_bomb):
+    global  vzriv_x,vzriv_y
+    vzriv_x = hard_bomb.centerx
+    vzriv_y = hard_bomb.centery
+    pygame.time.set_timer(controller.TIMER_POYVLENUE_VZRIV_HARD_BOMB, 1000, 1)
+
+
 def add_vzriv():
-    print('взрыв')
+    global vzriv
+    vzriv = pygame.Rect(0,0,100,100)
+    vzriv.center=[vzriv_x,vzriv_y]
+    pygame.time.set_timer(controller.TIMER_PROPADANIE_VZRIV_HARD_BOMB,500,1)
+
+
+def delete_vzriv():
+    global vzriv
+    vzriv=None
 
 
 def delete_hard_bomb():
-    global schet
+    global schet,vzriv_x,vzriv_y
     for vistrel_rect1 in vistrel_rect:
         a = vistrel_rect1.collidelist(hard_bombs)
         if a >= 0:
             schet += 4
+            start_vzriv(hard_bombs[a])
             vistrel_rect.remove(vistrel_rect1)
             del hard_bombs[a]
+
 
 
 def game_over():

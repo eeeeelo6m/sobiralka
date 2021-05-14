@@ -35,6 +35,7 @@ def draw_screen():
     draw_new_level()
     draw_heart()
     draw_game_over()
+    draw_vzriv()
     you_win()
     draw_bomb()
     display.flip()
@@ -55,6 +56,10 @@ def draw_player():
     draw.rect(screen, [123, 111, 111], model.obekt_player, 1)
     screen.blit(player, model.obekt_player)
 
+
+def draw_vzriv():
+    if model.vzriv is not None:
+        pygame.draw.rect(screen,[123,143,100],model.vzriv)
 
 def draw_new_level():
     global level, obrabotca_screen, nomer_fona, schet, new_level
