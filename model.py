@@ -137,7 +137,7 @@ def delete_hard_bomb():
     for vistrel_rect1 in vistrel_rect:
         a = vistrel_rect1.collidelist(hard_bombs)
         if a >= 0:
-            schet += 5
+            schet += 4
             start_vzriv(hard_bombs[a])
             vistrel_rect.remove(vistrel_rect1)
             del hard_bombs[a]
