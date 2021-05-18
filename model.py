@@ -113,12 +113,22 @@ def popadanie_hard_bomb():
             hard_bombs.remove(hard_bomb)
 
 
+def popadanie_vzriv():
+    global vzriv
+    if vzriv is None:
+        return
+
+    a=vzriv.colliderect(obekt_player)
+    if a==1:
+        posledstviy_vzriv()
+        vzriv=None
+
+
 def start_vzriv(hard_bomb):
     global  vzriv_x,vzriv_y
     vzriv_x = hard_bomb.centerx
     vzriv_y = hard_bomb.centery
     pygame.time.set_timer(controller.TIMER_POYVLENUE_VZRIV_HARD_BOMB, 1000, 1)
-
 
 def add_vzriv():
     global vzriv
@@ -126,6 +136,12 @@ def add_vzriv():
     vzriv.center=[vzriv_x,vzriv_y]
     pygame.time.set_timer(controller.TIMER_PROPADANIE_VZRIV_HARD_BOMB,500,1)
 
+
+def posledstviy_vzriv():
+    global heart ,schet
+    heart -=0.50
+    if schet >=0:
+        schet /=2
 
 def delete_vzriv():
     global vzriv
@@ -169,3 +185,4 @@ def model():
     falling_hard_bomb()
     padenie()
     delete_hard_bomb()
+    popadanie_vzriv()

@@ -21,6 +21,8 @@ obrabotka_bomb = pygame.image.load("picture/bomb.jpg")
 obrabotka_bomb = help.izmeni_kartinku(obrabotka_bomb, 60, 60, [235, 28, 36], 15)
 obrabotka_hard_bomb = pygame.image.load("picture/hard bomb.jpg")
 obrabotka_hard_bomb = help.izmeni_kartinku(obrabotka_hard_bomb, 80, 80, [184, 61, 186], 10)
+obrabotca_vzriv=pygame.image.load('picture/Взрыв.png')
+obrabotca_vzriv =help.izmeni_kartinku(obrabotca_vzriv,100,100,[63,72,204],10)
 
 
 
@@ -58,8 +60,9 @@ def draw_player():
 
 
 def draw_vzriv():
-    if model.vzriv is not None:
-        pygame.draw.rect(screen,[123,143,100],model.vzriv)
+    if model.vzriv is not None :
+        screen.blit(obrabotca_vzriv,model.vzriv)
+
 
 def draw_new_level():
     global level, obrabotca_screen, nomer_fona, schet, new_level
