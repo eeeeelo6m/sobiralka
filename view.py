@@ -23,6 +23,8 @@ obrabotka_hard_bomb = pygame.image.load("picture/hard bomb.jpg")
 obrabotka_hard_bomb = help.izmeni_kartinku(obrabotka_hard_bomb, 80, 80, [184, 61, 186], 10)
 obrabotca_vzriv=pygame.image.load('picture/Взрыв.png')
 obrabotca_vzriv =help.izmeni_kartinku(obrabotca_vzriv,100,100,[63,72,204],10)
+obrabotca_heal=pygame.image .load('picture/сердце.png')
+obrabotca_heal=help.izmeni_kartinku(obrabotca_heal,30,30,[255,255,255],10)
 
 
 
@@ -34,6 +36,7 @@ def draw_screen():
     draw_hard_bomb()
     draw_vistrel()
     draw_schet()
+    draw_heal()
     draw_new_level()
     draw_heart()
     draw_game_over()
@@ -130,6 +133,12 @@ def draw_heart():
     global heart
     a = heart_player_font.render(str(model.heart), True, [255, 0, 0])
     screen.blit(a, [870, 0])
+
+
+def draw_heal():
+    for heal in model.heal:
+        screen.blit(obrabotca_heal,heal)
+
 
 
 def draw_bomb():

@@ -13,6 +13,7 @@ bombs = []
 hard_bombs = []
 block = []
 vistrel_rect = []
+heal=[]
 vzriv = None
 vzriv_x=None
 vzriv_y=None
@@ -66,6 +67,24 @@ def delete_block():
                 block.remove(blocks)
                 vistrel_rect.remove(vistrel_rect1)
                 schet -= 10
+
+
+def add_heal():
+    global heal
+    heal.append(pygame.Rect(random.randint(0, 870), 0, 30, 30))
+    for heart in heal:
+
+        heart.y+=1
+
+
+def heal_player():
+    global heart
+    for heal_player in heal:
+        a = heal_player.colliderect(obekt_player)
+        if a==1:
+            heart+=1
+            heal.remove(heal_player)
+
 
 
 def padenie():
@@ -183,6 +202,8 @@ def model():
     popadanie_hard_bomb()
     game_over()
     falling_hard_bomb()
+    add_heal()
     padenie()
     delete_hard_bomb()
     popadanie_vzriv()
+    heal_player()
