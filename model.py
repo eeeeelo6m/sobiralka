@@ -1,4 +1,4 @@
-import pygame, random, controller, view
+import pygame, random, controller, time
 
 pygame.init()
 obekt_player = pygame.Rect([400, 525, 50, 150])
@@ -6,14 +6,14 @@ schet = 0
 heart = 3
 new_level = 1
 level = 1
-
-
+secunder = 10000
 
 bombs = []
 hard_bombs = []
 block = []
 vistrel_rect = []
 heal=[]
+udar=[]
 vzriv = None
 vzriv_x=None
 vzriv_y=None
@@ -53,6 +53,11 @@ def vistrel():
             exit()
 
 
+def add_udar():
+    a=pygame.Rect(random.randint(0,500),301,50,50)
+    udar.append(a)
+
+
 def add_block():
     blocks = pygame.Rect([random.randint(30, 870), 10, 70, 70])
     block.append(blocks)
@@ -70,21 +75,24 @@ def delete_block():
 
 
 def add_heal():
-    global heal
-    heal.append(pygame.Rect(random.randint(0, 870), 0, 30, 30))
-    for heart in heal:
+    if level>=3:
+        heal.append(pygame.Rect(random.randint(0, 870), 0, 30, 30))
 
-        heart.y+=1
 
 
 def heal_player():
     global heart
     for heal_player in heal:
+
         a = heal_player.colliderect(obekt_player)
-        if a==1:
+
+        if a == 1:
             heart+=1
+            if heart>3:
+                heart=3
             heal.remove(heal_player)
 
+        heal_player.y += 2
 
 
 def padenie():
@@ -115,6 +123,7 @@ def delete_bomb():
 def add_hard_bomb():
     hard_bomb = pygame.Rect(random.randint(0, 830), 0, 80, 80)
     hard_bombs.append(hard_bomb)
+    pygame.time.set_timer(controller.TIMER_FALL_HARD_BOMB, secunder, 1)
 
 
 def falling_hard_bomb():
@@ -130,6 +139,16 @@ def popadanie_hard_bomb():
             heart -= 1.5
             start_vzriv(hard_bomb)
             hard_bombs.remove(hard_bomb)
+
+
+def uscorenie():
+    global secunder
+    for hard_bomb in hard_bombs:
+        if hard_bomb.y>515:
+            hard_bombs.remove(hard_bomb)
+            start_vzriv(hard_bomb)
+            if secunder>3000:
+                secunder-=500
 
 
 def popadanie_vzriv():
@@ -202,8 +221,8 @@ def model():
     popadanie_hard_bomb()
     game_over()
     falling_hard_bomb()
-    add_heal()
     padenie()
+    uscorenie()
     delete_hard_bomb()
     popadanie_vzriv()
     heal_player()

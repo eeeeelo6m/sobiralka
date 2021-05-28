@@ -8,8 +8,8 @@ print(pygame.font.get_fonts())
 win = pygame.font.SysFont("vinerhanditc", 300)
 heart_player_font = pygame.font.SysFont("vinerhanditc", 30)
 game_over_font=pygame.font.SysFont('vinerhanditc', 150)
-# pygame.mixer.music.load('musik/musika.mp3')
-# pygame.mixer.music.play()
+#pygame.mixer.music.load('musik/musika.mp3')
+#pygame.mixer.music.play()
 obrabotca_screen = pygame.image.load(designer.screen[0])
 obrabotca_block = pygame.image.load("picture/супер гер бой.jpg")
 obrabotca_block = help.izmeni_kartinku(obrabotca_block, 70, 70, [0, 0, 0], 10)
@@ -25,8 +25,9 @@ obrabotca_vzriv=pygame.image.load('picture/Взрыв.png')
 obrabotca_vzriv =help.izmeni_kartinku(obrabotca_vzriv,100,100,[63,72,204],10)
 obrabotca_heal=pygame.image .load('picture/сердце.png')
 obrabotca_heal=help.izmeni_kartinku(obrabotca_heal,30,30,[255,255,255],10)
-
-
+obrabotca_udar=pygame.image.load('picture/удар.jpg')
+obrabotca_udar=help.izmeni_kartinku(obrabotca_udar,20,100,[0,0,0],20)
+obrabotca_udar=pygame.transform.rotate(obrabotca_udar,-90)
 
 
 def draw_screen():
@@ -40,6 +41,7 @@ def draw_screen():
     draw_new_level()
     draw_heart()
     draw_game_over()
+    draw_udar()
     draw_vzriv()
     you_win()
     draw_bomb()
@@ -145,3 +147,8 @@ def draw_bomb():
     for bomb1 in model.bombs:
         draw.rect(screen, [0, 0, 0], bomb1, 1)
         screen.blit(obrabotka_bomb, bomb1)
+
+
+def draw_udar():
+    for udar in model.udar:
+        screen.blit(obrabotca_udar,udar)
