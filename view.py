@@ -27,7 +27,7 @@ obrabotca_heal=pygame.image .load('picture/сердце.png')
 obrabotca_heal=help.izmeni_kartinku(obrabotca_heal,30,30,[255,255,255],10)
 obrabotca_udar=pygame.image.load('picture/удар.jpg')
 obrabotca_udar=help.izmeni_kartinku(obrabotca_udar,20,100,[0,0,0],20)
-obrabotca_udar=pygame.transform.rotate(obrabotca_udar,-90)
+obrabotca_udar=pygame.transform.rotate(obrabotca_udar,270)
 
 
 def draw_screen():
