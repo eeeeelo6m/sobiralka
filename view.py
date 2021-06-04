@@ -120,7 +120,7 @@ def draw_game_over():
 
 
 def draw_block():
-    for block1 in model.block:
+    for block1 in model.blocks:
         draw.rect(screen, [0, 0, 0], block1, 1)
         screen.blit(obrabotca_block, block1)
 
@@ -150,5 +150,5 @@ def draw_bomb():
 
 
 def draw_udar():
-    for udar in model.udar:
+    for udar in model.shit:
         screen.blit(obrabotca_udar,udar)

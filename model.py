@@ -10,10 +10,11 @@ secunder = 10000
 
 bombs = []
 hard_bombs = []
-block = []
+blocks = []
 vistrel_rect = []
 heal=[]
-udar=[]
+shit=[]
+mogu_stavit_shit=True
 vzriv = None
 vzriv_x=None
 vzriv_y=None
@@ -53,23 +54,39 @@ def vistrel():
             exit()
 
 
-def add_udar():
-    a=pygame.Rect(random.randint(0,500),301,50,50)
-    udar.append(a)
+def add_shit():
+    global mogu_stavit_shit
+    if mogu_stavit_shit:
+        a=pygame.Rect(random.randint(0,500),301,50,50)
+        shit.append(a)
+        mogu_stavit_shit=False
+        pygame.time.set_timer(controller.TIMER_POYVLENIE_SHITA,3000)
 
+
+def funkcii_shita():
+    global schet
+    for block in blocks:
+        for bomb in bombs:
+            for shits in shit:
+                a=block.colliderect(shits)
+                if a==1:
+                    schet+=1
+                    blocks.remove(block)
+                    shit.remove(shits)
+                    break
 
 def add_block():
-    blocks = pygame.Rect([random.randint(30, 870), 10, 70, 70])
-    block.append(blocks)
+    block = pygame.Rect([random.randint(30, 870), 10, 70, 70])
+    blocks.append(block)
 
 
 def delete_block():
     global schet
-    for blocks in block:
+    for block in blocks:
         for vistrel_rect1 in vistrel_rect:
-            delete = vistrel_rect1.colliderect(blocks)
+            delete = vistrel_rect1.colliderect(block)
             if delete == 1:
-                block.remove(blocks)
+                blocks.remove(block)
                 vistrel_rect.remove(vistrel_rect1)
                 schet -= 10
 
@@ -97,11 +114,11 @@ def heal_player():
 
 def padenie():
     global schet
-    for dvigenie in block:
+    for dvigenie in blocks:
         dvigenie.y += 4
         un_padenie = dvigenie.colliderect(obekt_player)
         if un_padenie == 1:
-            block.remove(dvigenie)
+            blocks.remove(dvigenie)
             schet += 1
 
 
@@ -225,4 +242,5 @@ def model():
     uscorenie()
     delete_hard_bomb()
     popadanie_vzriv()
+    funkcii_shita()
     heal_player()
