@@ -36,7 +36,7 @@ def obrabotka_event():
              model.add_vzriv()
 
         if r.type==pygame.MOUSEBUTTONDOWN and r.button==pygame.BUTTON_RIGHT:
-            model.add_shit()
+            model.add_shit([200,300])
         if r.type==TIMER_POYVLENIE_SHITA:
             model.mogu_stavit_shit=True
         if r.type == TIMER_FALL_HARD_BOMB:

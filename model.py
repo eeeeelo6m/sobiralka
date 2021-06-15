@@ -54,10 +54,10 @@ def vistrel():
             exit()
 
 
-def add_shit():
+def add_shit(pos):
     global mogu_stavit_shit
     if mogu_stavit_shit:
-        a=pygame.Rect(random.randint(0,500),301,50,50)
+        a=pygame.Rect(pos[0],pos[1],50,50)
         shit.append(a)
         mogu_stavit_shit=False
         pygame.time.set_timer(controller.TIMER_POYVLENIE_SHITA,3000)
@@ -65,36 +65,26 @@ def add_shit():
 
 def funkcii_shita():
     global schet
-    # blocks=['bl1','bl2']
-    # bombs=['bm1','bm2']
-    # shit=['sh1','sh2']
-    # bl1 sh1
-    # bm1 sh1
-    # bl2 sh1
-    # bm2 sh1
-    # bl1 sh2
-    # bm1 sh2
-    # bl2 sh2
-    # bm2 sh2
 
     for block in blocks.copy():
         for shits in shit.copy():
-            # print(block,shits)
+
             a=block.colliderect(shits)
-            # a=block=='bl1'and shits=='sh1'
+
             if a==1:
                 schet+=1
                 blocks.remove(block)
                 shit.remove(shits)
                 break
-            for bomb in bombs:
-                b=shits.colliderect(bomb)
-                # print(bomb,shits)
-                if b==1:
-                    schet+=1
-                    bombs.remove(bomb)
-                    shit.remove(shits)
+    for bomb in bombs.copy():
+        for shits in shit.copy():
+            b=shits.colliderect(bomb)
 
+            if b==1:
+                schet+=1
+                bombs.remove(bomb)
+                shit.remove(shits)
+                break
 
 
 def add_block():
