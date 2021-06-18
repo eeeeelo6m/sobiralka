@@ -56,15 +56,21 @@ def vistrel():
 
 def add_shit(pos):
     global mogu_stavit_shit
-    if mogu_stavit_shit:
-        a=pygame.Rect(pos[0],pos[1],50,50)
+    pos=[pos[0],pos[1]]
+    chislo=len(shit)
+    if mogu_stavit_shit and chislo<3:
+        if pos[1]<201or pos[1]>500:
+            pos[1]=301
+
+        a=pygame.Rect(0,0,100,100)
+        a.center=pos
         shit.append(a)
         mogu_stavit_shit=False
         pygame.time.set_timer(controller.TIMER_POYVLENIE_SHITA,3000)
 
 
 def funkcii_shita():
-    global schet
+    global schet,heart
 
     for block in blocks.copy():
         for shits in shit.copy():
@@ -82,6 +88,7 @@ def funkcii_shita():
 
             if b==1:
                 schet+=1
+                heart-=0.25
                 bombs.remove(bomb)
                 shit.remove(shits)
                 break

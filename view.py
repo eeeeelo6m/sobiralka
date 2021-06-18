@@ -25,9 +25,9 @@ obrabotca_vzriv=pygame.image.load('picture/Взрыв.png')
 obrabotca_vzriv =help.izmeni_kartinku(obrabotca_vzriv,100,100,[63,72,204],10)
 obrabotca_heal=pygame.image .load('picture/сердце.png')
 obrabotca_heal=help.izmeni_kartinku(obrabotca_heal,30,30,[255,255,255],10)
-obrabotca_udar=pygame.image.load('picture/удар.jpg')
-obrabotca_udar=help.izmeni_kartinku(obrabotca_udar,20,100,[0,0,0],20)
-obrabotca_udar=pygame.transform.rotate(obrabotca_udar,270)
+obrabotca_shit=pygame.image.load('picture/удар.jpg')
+obrabotca_shit=help.izmeni_kartinku(obrabotca_shit, 20, 100, [0, 0, 0], 20)
+obrabotca_shit=pygame.transform.rotate(obrabotca_shit, 270)
 
 
 def draw_screen():
@@ -41,7 +41,7 @@ def draw_screen():
     draw_new_level()
     draw_heart()
     draw_game_over()
-    draw_udar()
+    draw_shit()
     draw_vzriv()
     you_win()
     draw_bomb()
@@ -149,6 +149,7 @@ def draw_bomb():
         screen.blit(obrabotka_bomb, bomb1)
 
 
-def draw_udar():
+def draw_shit():
     for udar in model.shit:
-        screen.blit(obrabotca_udar,udar)
+        screen.blit(obrabotca_shit, udar)
+        draw.rect(screen,[0,0,0],udar,1)
