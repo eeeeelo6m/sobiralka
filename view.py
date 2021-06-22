@@ -40,6 +40,7 @@ def draw_screen():
     draw_heal()
     draw_new_level()
     draw_heart()
+    draw_lazer()
     draw_game_over()
     draw_shit()
     draw_vzriv()
@@ -52,6 +53,11 @@ def draw_vistrel():
     for vistrel_rect1 in model.vistrel_rect:
         draw.rect(screen, [111, 222, 121, ], vistrel_rect1, 1)
         screen.blit(obrabotca_vistrel, vistrel_rect1)
+
+
+def draw_lazer():
+    if model.lazer is not None:
+        draw.rect(screen,[0,0,147],model.lazer)
 
 
 def draw_schet():

@@ -10,6 +10,7 @@ TIMER_FALL_HARD_BOMB = event.custom_type()
 TIMER_POYVLENUE_VZRIV_HARD_BOMB= event.custom_type()
 TIMER_PROPADANIE_VZRIV_HARD_BOMB=event.custom_type()
 TIMER_HAEL=event.custom_type()
+TIMER_LAZER=event.custom_type()
 pygame.time.set_timer(TIMER_FALL_BLOCK, 2000)
 pygame.time.set_timer(TIMER_FALL_BOMB, 5000)
 pygame.time.set_timer(TIMER_HAEL,30000)
@@ -39,6 +40,11 @@ def obrabotka_event():
             model.add_shit(r.pos)
         if r.type==TIMER_POYVLENIE_SHITA:
             model.mogu_stavit_shit=True
+        if r.type==pygame.MOUSEBUTTONDOWN and r.button==pygame.BUTTON_MIDDLE:
+            model.add_lazer()
+
+            model.mogu_strelyt_lazer=True
+            print('123')
         if r.type == TIMER_FALL_HARD_BOMB:
             model.add_hard_bomb()
         if r.type == TIMER_HAEL:

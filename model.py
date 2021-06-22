@@ -18,7 +18,9 @@ mogu_stavit_shit=True
 vzriv = None
 vzriv_x=None
 vzriv_y=None
+lazer=None
 mogu_strelyt = True
+mogu_strelyt_lazer=True
 
 
 def ogranichnie():
@@ -52,6 +54,14 @@ def vistrel():
         if schet <= -10 and level > 1:
             print("gameover")
             exit()
+
+
+def add_lazer():
+    global lazer,schet,mogu_strelyt_lazer
+
+    if mogu_strelyt_lazer:
+        lazer=pygame.Rect(obekt_player.x-50,0,150,530)
+        mogu_strelyt_lazer=False
 
 
 def add_shit(pos):
@@ -258,6 +268,7 @@ def model():
     game_over()
     falling_hard_bomb()
     padenie()
+    add_lazer()
     uscorenie()
     delete_hard_bomb()
     popadanie_vzriv()
