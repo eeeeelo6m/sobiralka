@@ -25,8 +25,8 @@ obrabotca_vzriv=pygame.image.load('picture/Взрыв.png')
 obrabotca_vzriv =help.izmeni_kartinku(obrabotca_vzriv,100,100,[63,72,204],10)
 obrabotca_heal=pygame.image .load('picture/сердце.png')
 obrabotca_heal=help.izmeni_kartinku(obrabotca_heal,30,30,[255,255,255],10)
-obrabotca_shit=pygame.image.load('picture/удар.jpg')
-obrabotca_shit=help.izmeni_kartinku(obrabotca_shit, 20, 100, [0, 0, 0], 20)
+obrabotca_shit=pygame.image.load('picture/разлом.jpg')
+obrabotca_shit=help.izmeni_kartinku(obrabotca_shit, 100, 100, [255, 255, 255], 20)
 obrabotca_shit=pygame.transform.rotate(obrabotca_shit, 270)
 
 

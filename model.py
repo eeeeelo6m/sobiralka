@@ -58,10 +58,31 @@ def vistrel():
 
 def add_lazer():
     global lazer,schet,mogu_strelyt_lazer
-
     if mogu_strelyt_lazer:
         lazer=pygame.Rect(obekt_player.x-50,0,150,530)
+        pygame.time.set_timer(controller.TIMER_VISTREL_LAZER, 10000)
+        pygame.time.set_timer(controller.TIMER_DLETE_LAZER,5000)
         mogu_strelyt_lazer=False
+        schet-=1
+def posledstviy_lazer():
+    global schet
+    if lazer is None:
+        return
+    for bomb in bombs:
+        a=bomb.colliderect(lazer)
+        if a==1:
+            bombs.remove(bomb)
+            schet+=1
+    for hard_bomb in hard_bombs:
+        a=hard_bomb.colliderect(lazer)
+        if a==1:
+            hard_bombs.remove(hard_bomb)
+            schet+=2
+
+
+def delete_lazer():
+    global lazer
+    lazer=None
 
 
 def add_shit(pos):
@@ -267,8 +288,8 @@ def model():
     popadanie_hard_bomb()
     game_over()
     falling_hard_bomb()
+    posledstviy_lazer()
     padenie()
-    add_lazer()
     uscorenie()
     delete_hard_bomb()
     popadanie_vzriv()
