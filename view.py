@@ -33,25 +33,25 @@ obrabotca_shit=pygame.transform.rotate(obrabotca_shit, 270)
 def draw_screen():
     screen.blit(obrabotca_screen, [0, 0])
     draw_player()
-    draw_block()
     draw_hard_bomb()
     draw_vistrel()
     draw_schet()
     draw_heal()
     draw_new_level()
     draw_heart()
-    draw_lazer()
     draw_game_over()
     draw_shit()
     draw_vzriv()
     you_win()
     draw_bomb()
+    draw_lazer()
+    draw_block()
     display.flip()
 
 
 def draw_vistrel():
     for vistrel_rect1 in model.vistrel_rect:
-        draw.rect(screen, [111, 222, 121, ], vistrel_rect1, 1)
+        #draw.rect(screen, [111, 222, 121, ], vistrel_rect1, 1)
         screen.blit(obrabotca_vistrel, vistrel_rect1)
 
 
@@ -66,7 +66,7 @@ def draw_schet():
 
 
 def draw_player():
-    draw.rect(screen, [123, 111, 111], model.obekt_player, 1)
+    #draw.rect(screen, [123, 111, 111], model.obekt_player, 1)
     screen.blit(player, model.obekt_player)
 
 
@@ -78,7 +78,7 @@ def draw_vzriv():
 def draw_new_level():
     global level, obrabotca_screen, nomer_fona, schet, new_level
 
-    if model.new_level <= model.schet:
+    if model.new_level <= model.schet :
 
         model.level += 1
         a = new_levels.render("level " + str(model.level), True, [255, 255, 0])
@@ -98,7 +98,7 @@ def draw_new_level():
 
 
 def you_win():
-    if model.level == 10:
+    if model.level == 20:
         a = win.render("win", True, [255, 255, 30])
         screen.fill([0, 0, 0])
         screen.blit(a, [300, 200])
@@ -127,20 +127,20 @@ def draw_game_over():
 
 def draw_block():
     for block1 in model.blocks:
-        draw.rect(screen, [0, 0, 0], block1, 1)
+        #draw.rect(screen, [0, 0, 0], block1, 1)
         screen.blit(obrabotca_block, block1)
 
 
 def draw_hard_bomb():
     for hard_bomb in model.hard_bombs:
-        draw.rect(screen, [100, 100, 100], hard_bomb, 1)
+        #draw.rect(screen, [100, 100, 100], hard_bomb, 1)
         screen.blit(obrabotka_hard_bomb, hard_bomb)
 
 
 def draw_heart():
     global heart
     a = heart_player_font.render(str(model.heart), True, [255, 0, 0])
-    screen.blit(a, [870, 0])
+    screen.blit(a, [830, 0])
 
 
 def draw_heal():
@@ -151,11 +151,11 @@ def draw_heal():
 
 def draw_bomb():
     for bomb1 in model.bombs:
-        draw.rect(screen, [0, 0, 0], bomb1, 1)
+        # draw.rect(screen, [0, 0, 0], bomb1, 1)
         screen.blit(obrabotka_bomb, bomb1)
 
 
 def draw_shit():
     for udar in model.shit:
         screen.blit(obrabotca_shit, udar)
-        draw.rect(screen,[0,0,0],udar,1)
+        #draw.rect(screen,[0,0,0],udar,1)

@@ -64,6 +64,8 @@ def add_lazer():
         pygame.time.set_timer(controller.TIMER_DLETE_LAZER,5000)
         mogu_strelyt_lazer=False
         schet-=1
+
+
 def posledstviy_lazer():
     global schet
     if lazer is None:
